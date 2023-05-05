@@ -2,3 +2,6 @@
 .env
 venv
 tracker.json
+.htaccess
+__pycache__
+run.fcgi

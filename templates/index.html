@@ -9,18 +9,19 @@
     background-color: #000000;
     color: #fff;
     font-family: "Open Sans", sans;
-    font-size: 10vw;
   }
   * {
     box-sizing: border-box;
   }
   /* Create three equal columns that floats next to each other */
 .column {
-  float: left;
-  width: 33.33%;
-  padding: 10px;
-  min-height: 10vh;
+  width: 100%;
+  font-size: 10vh;
   text-align: center;
+}
+.outline {
+    border: 4px solid white;
+    padding: 1vh;
 }
 
 /* Clear floats after the columns */
@@ -30,22 +31,37 @@
   clear: both;
 }
 
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
-    font-size: 10vh;
-  }
+@media (orientation:landscape) {
+   .column {
+      float: left;
+      width: 33.33%;
+      font-size: 10vw;
+    }
+    .outline {
+        padding: 1vw;
+    }
 }
   </style>
   </head>
   <body>
     <div class="row">
-  <div class="column">ACT <br><span id="act">{{ data.a|e }}</span></div>
-  <div class="column">SCENE <br><span id="scene">{{ data.s|e }}</span></div>
-  <div class="column">PAGE <br><span id="page">{{ data.p|e }}</span></div>
+  <div class="column">
+      <div class="outline">
+        ACT <br><span id="act">{{ data.a|e }}</span>
+      </div>
   </div>
-  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <div class="column">
+      <div class="outline">
+        SCENE <br><span id="scene">{{ data.s|e }}</span>
+      </div>
+  </div>
+  <div class="column">
+      <div class="outline">
+        PAGE <br><span id="page">{{ data.p|e }}</span>
+      </div>
+  </div>
+  </div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
   <script>
     document.addEventListener('DOMContentLoaded', function(event) {
 
@@ -55,7 +71,6 @@
       }
 
       function update(response) {
-        console.log(response);
         document.getElementById('act').innerHTML = response.a;
         document.getElementById('scene').innerHTML = response.s;
         document.getElementById('page').innerHTML = response.p;
