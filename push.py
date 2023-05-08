@@ -1,4 +1,4 @@
-import sys, requests, os, json
+import sys, requests, os, json, urllib.parse
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -10,9 +10,9 @@ if len(sys.argv) != 4:
     sys.exit(1)
 
 # Assign the command-line arguments to variables
-a = sys.argv[1]
-s = sys.argv[2]
-p = sys.argv[3]
+a = urllib.parse.quote(sys.argv[1])
+s = urllib.parse.quote(sys.argv[2])
+p = urllib.parse.quote(sys.argv[3])
 
 # Build the URL with the three arguments
 url = f"{WRITE_URL}?a={a}&s={s}&p={p}&key={SECRET_KEY}"
