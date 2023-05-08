@@ -59,7 +59,7 @@
   </style>
   </head>
   <body>
-    <div class="row">
+  <div class="row">
   <div class="column thirds" id="column-1">
       <div class="outline">
         <div class="text">
@@ -73,6 +73,7 @@
         <div class="text">
           <label for="scene" id="scene-label">SCENE</label>
           <span id="scene">{{ data.s|e }}</span>
+          <div id="time-display" style="display: none;">00<span id="colon" style="visibility: visible;">:</span>00</div>
         </div>
       </div>
   </div>
@@ -83,7 +84,6 @@
           <span id="page">{{ data.p|e }}</span>
         </div>
       </div>
-  </div>
   </div>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
   <script>
@@ -107,6 +107,7 @@
             document.getElementById("column-2").classList.remove('thirds');
             document.getElementById('column-3').style.display = "none";
             document.getElementById('scene-label').style.display = "none";
+            document.getElementById('time-display').style.display = "block";
           } else {
             document.getElementById('act').innerHTML = response.a;
             document.getElementById('scene').innerHTML = response.s;
@@ -115,7 +116,11 @@
             document.getElementById('column-1').style.display = "block";
             document.getElementById('column-3').style.display = "block";
             document.getElementById('scene-label').style.display = "block";
+            document.getElementById('time-display').style.display = "none";
           }
+        }
+        if (response.a == 0) {
+          displayTime();
         }
       }
 
@@ -129,6 +134,21 @@
           })
           .then(response => response.json())
           .then(response => update(response));
+      }
+      function displayTime() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        
+        hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+
+        timeDisplay = document.getElementById("time-display");
+        colon = document.getElementById("colon");
+        colonVisibility = (colon.style.visibility == "visible") ? "hidden" : "visible";
+        timeDisplay.innerHTML = hours + "<span id='colon' style='visibility: "+colonVisibility+"'>:</span>" + minutes;
+
+
       }
 
       window.setTimeout(poll, 1000);
