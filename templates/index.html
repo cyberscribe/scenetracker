@@ -9,19 +9,33 @@
     background-color: #000000;
     color: #fff;
     font-family: "Open Sans", sans;
+    margin: 0;
+    padding: 0;
   }
   * {
     box-sizing: border-box;
   }
-  /* Create three equal columns that floats next to each other */
+  label {
+    display: block;
+  }
+  /* Create thirds equal columns that floats next to each other */
 .column {
   width: 100%;
   font-size: 10vh;
   text-align: center;
 }
 .outline {
-    border: 4px solid white;
-    padding: 1vh;
+  border: 4px solid white;
+  min-height: 33vh;
+  padding: 1vh;
+  position: relative;
+}
+.text {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  text-align: center;
+  width: 100%;
 }
 
 /* Clear floats after the columns */
@@ -32,32 +46,42 @@
 }
 
 @media (orientation:landscape) {
-   .column {
+   .column.thirds {
       float: left;
       width: 33.33%;
       font-size: 10vw;
     }
     .outline {
-        padding: 1vw;
+      padding: 1vw;
+      min-height: 100vh;
     }
 }
   </style>
   </head>
   <body>
     <div class="row">
-  <div class="column">
+  <div class="column thirds" id="column-1">
       <div class="outline">
-        ACT <br><span id="act">{{ data.a|e }}</span>
+        <div class="text">
+          <label for="act">ACT</label>
+          <span id="act">{{ data.a|e }}</span>
+        </div>
       </div>
   </div>
-  <div class="column">
+  <div class="column thirds" id="column-2">
       <div class="outline">
-        SCENE <br><span id="scene">{{ data.s|e }}</span>
+        <div class="text">
+          <label for="scene" id="scene-label">SCENE</label>
+          <span id="scene">{{ data.s|e }}</span>
+        </div>
       </div>
   </div>
-  <div class="column">
+  <div class="column thirds" id="column-3">
       <div class="outline">
-        PAGE <br><span id="page">{{ data.p|e }}</span>
+        <div class="text">
+          <label for="page">PAGE</label>
+          <span id="page">{{ data.p|e }}</span>
+        </div>
       </div>
   </div>
   </div>
@@ -71,9 +95,28 @@
       }
 
       function update(response) {
-        document.getElementById('act').innerHTML = response.a;
-        document.getElementById('scene').innerHTML = response.s;
-        document.getElementById('page').innerHTML = response.p;
+        a = parseInt(document.getElementById('act').innerHTML);
+        s = parseInt(document.getElementById('scene').innerHTML);
+        p = parseInt(document.getElementById('page').innerHTML);
+        if (a != response.a || s != response.s || p != response.p) {
+          // update only on change
+          if (response.a == 0) {
+            // special case, dispay only scene, which is usually a custom message
+            document.getElementById('column-1').style.display = "none";
+            document.getElementById('scene').innerHTML = response.s;
+            document.getElementById("column-2").classList.remove('thirds');
+            document.getElementById('column-3').style.display = "none";
+            document.getElementById('scene-label').style.display = "none";
+          } else {
+            document.getElementById('act').innerHTML = response.a;
+            document.getElementById('scene').innerHTML = response.s;
+            document.getElementById("column-2").classList.add('thirds');
+            document.getElementById('page').innerHTML = response.p;
+            document.getElementById('column-1').style.display = "block";
+            document.getElementById('column-3').style.display = "block";
+            document.getElementById('scene-label').style.display = "block";
+          }
+        }
       }
 
       async function fetchAndUpdate() {

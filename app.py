@@ -5,6 +5,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY', '')
+app.config["DEBUG"] = os.environ.get('DEBUG', False)
 
 @app.route('/write', methods=['GET'])
 def write_file():
@@ -46,4 +47,4 @@ def read_html():
     return render_template('index.html', data=data)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=DEBUG)
