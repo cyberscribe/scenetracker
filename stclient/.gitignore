@@ -1,1 +1,4 @@
 .import*
+.godot*
+scenes.txt
+config.ini
