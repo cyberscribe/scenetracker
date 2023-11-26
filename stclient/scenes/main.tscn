@@ -79,6 +79,7 @@ offset_bottom = 30.0
 text = "GO"
 
 [node name="SettingsButton" type="TextureButton" parent="Interface"]
+visible = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
