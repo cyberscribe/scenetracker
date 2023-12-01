@@ -11,7 +11,8 @@ extends Node
 func _ready() -> void:
     if len(g.labels) > 0:
         for scenes in g.labels:
-            tracker_list.add_item(format_string % [scenes[0], scenes[1], scenes[2]])
+            if scenes.size() == 3:
+                tracker_list.add_item(format_string % [scenes[0], scenes[1], scenes[2]])
         tracker_list.select(0)
         item = 0
 
@@ -25,10 +26,10 @@ func _on_TrackerList_item_selected(index:int) -> void:
 func _on_GoButton_pressed() -> void:
     if item != -1 and item < len(g.labels):
         var scene = g.labels[item]
-        var label = format_string % [scene[0], scene[1], scene[2]]
+        #var label = format_string % [scene[0], scene[1], scene[2]]
         #print(str(item) + ". Executing " + label + "...")
         send_scene(scene[0], scene[1], scene[2])
-        if (item + 1) < len(g.labels):
+        if (item + 1) < tracker_list.get_item_count():
             tracker_list.select(item + 1)
             item = item + 1
     tracker_list.grab_focus()
