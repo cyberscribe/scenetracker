@@ -17,7 +17,8 @@ func _ready() -> void:
         item = 0
 
 func _on_SettingsButton_pressed() -> void:
-    pass
+    g.save()
+    OS.shell_show_in_file_manager(ProjectSettings.globalize_path("user://"), true)
 
 func _on_TrackerList_item_selected(index:int) -> void:
     item = index

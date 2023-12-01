@@ -48,11 +48,14 @@ func _init():
     
 func _notification(what: int) -> void:
     if what == NOTIFICATION_WM_CLOSE_REQUEST:
-        # save labels to csv file spcified in user_scenes_file
-        var file = FileAccess.open(user_scenes_file, FileAccess.WRITE)
-        if file != null:
-            for label in labels:
-                file.store_csv_line(label)
-            file.close()
-        # write config to file specified in user_config_file
-        config.save(user_config_file)
+        save()
+
+func save() -> void:
+    # save labels to csv file spcified in user_scenes_file
+    var file = FileAccess.open(user_scenes_file, FileAccess.WRITE)
+    if file != null:
+        for label in labels:
+            file.store_csv_line(label)
+        file.close()
+    # write config to file specified in user_config_file
+    config.save(user_config_file)
